@@ -8,6 +8,7 @@ root = tk.Tk()
 root.geometry("+50+50")
 root.title("Rise to the Challenge")
 
+#[Monster name, image icon]
 monsterList = [
     ["Aknosom", PIL.ImageTk.PhotoImage(PIL.Image.open("images/aknosom.png"))], 
 	["Almudron", PIL.ImageTk.PhotoImage(PIL.Image.open("images/almudron.png"))], 
@@ -101,7 +102,7 @@ challengeList = [
     ["No self improvement song", 23, [5], [10, 34]],
     ["Shelling and Wyvernfire only (Lance-less Gunlance)", 24, [7], [10, 25, 34]],
     ["Poking only (Gun-less Gunlance)", 25, [7], [10, 24, 34]],
-    ["Axe mode only", 26, [8], [10, 27, 34]],
+    ["Axe mode only", 26, [8, 9], [10, 27, 34]],
     ["Sword mode only", 27, [8, 9], [10, 26, 34]],
     ["No shield charging", 28, [9], [10, 34]],
     ["Kinsect only", 29, [10], [10, 30, 32, 34]],
@@ -109,7 +110,8 @@ challengeList = [
     ["No aerial attacks", 31, [10], [10, 32, 34]],
     ["Aerial attacks only", 32, [10], [10, 29, 31, 34]],
     ["Melee only", 33, [11, 12, 13], [9, 10, 34]],
-    ["Items Only", 34, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 4, 8, 9, 10, 12, 13, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]]
+    ["Items Only", 34, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 4, 8, 9, 10, 12, 13, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]],
+    ["No dango", 35, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []]
 ]
 
 mainFrame = tk.Frame(root, borderwidth = 5, relief = tk.GROOVE)
@@ -213,7 +215,7 @@ for i in challengeList:
 
     var = tk.IntVar()
     challengeCheckboxes.append([tk.Checkbutton(challengeSubFrames[subFrameCounter], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var), var])
-    challengeCheckboxes[j][0].select()
+    #challengeCheckboxes[j][0].select()
     challengeCheckboxes[j][0].grid(row = ycor, column = xcor, sticky = "new", padx = 5, pady = 3)
     j = j + 1
     ycor = ycor + 1
@@ -264,7 +266,7 @@ def generateChallenge():
     #[Challenge name, challenge ID N°, ID's to filter compatible weapons, non-compatible challenges by ID]
     compatibleChallenges = []
     for i in challengeList:
-        if(weaponID in i[2]):
+        if(weaponID in i[2] and i[0] in challengeSelection):
             compatibleChallenges.append(i)
 
     challenges = []
@@ -289,7 +291,7 @@ def generateChallenge():
 #Setup settings selection frame
 settingsColor = "#4D62C1"
 settingsFrame = tk.Frame(mainFrame, borderwidth = 5, relief = tk.GROOVE, bg = settingsColor)
-challengeNumberSlider = tk.Scale(settingsFrame, from_ = 1, to = len(challengeCheckboxes), orient = tk.HORIZONTAL, label = "Number of restrictions", length = 300)
+challengeNumberSlider = tk.Scale(settingsFrame, from_ = 1, to = 15, orient = tk.HORIZONTAL, label = "Number of restrictions", length = 300)
 challengeNumberSlider.grid(row = 0, column = 0, padx = 5)
 testButton = tk.Button(settingsFrame, text = "Challenge!", command = generateChallenge)
 testButton.grid(row = 0, column = 1, padx = 5)
