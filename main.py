@@ -105,7 +105,7 @@ def changeAll(list, state):
 root = tk.Tk()
 root.geometry("+50+50")
 root.title("Rise to the Challenge")
-root.minsize(1600, 900)
+root.minsize(1600, 870)
 #root.state("zoomed")
 
 #[Monster name, image icon]
@@ -189,7 +189,7 @@ challengeList = [
     ["Only Normal 1/No Coating", [11, 12, 13], [10, 33, 34], 4],
     #10
     ["Only attack from palamute", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [12, 18, 22, 24, 25, 26, 27, 29, 32, 33], 5],
-    ["Inverted controls (or normal, the ones you don't use)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
+    ["Inverted controls", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
     ["Silkbind attacks only", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 13, 14], 5],
     ["No silkbind attacks", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 12, 14, 34], 1],
     ["No wirebug (Play like it's MH1)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [0, 12, 13], 2],
@@ -246,16 +246,16 @@ xcor = 0
 ycor = 0
 subFrameCounter = -1
 
-monsterLabel = tk.Label(monsterFrame, text = "Monster List", font=("arial", 35), bg = monsterColor)
+monsterLabel = tk.Label(monsterFrame, text = "Monster List", font=("arial", 20), bg = monsterColor, fg = "#FFFFFF")
 for i in monsterList:
     #Max 20 monsters per column
-    if(j % 20 == 0):
+    if(j % 11 == 0):
         subFrameCounter = subFrameCounter + 1
         monsterSubFrames.append(tk.Frame(monsterSubFramesContainer, bg = monsterColor))
         xcor = xcor + 1
 
     var = tk.IntVar()
-    monsterCheckboxes.append([tk.Checkbutton(monsterSubFrames[subFrameCounter], text = i[0], width = 25, height = 1, borderwidth = 5, relief = tk.RAISED, variable = var), var])
+    monsterCheckboxes.append([tk.Checkbutton(monsterSubFrames[subFrameCounter], text = i[0], width = 18, height = 1, borderwidth = 5, relief = tk.RAISED, variable = var), var])
     monsterCheckboxes[j][0].select()
     monsterCheckboxes[j][0].grid(row = ycor, column = xcor, sticky = "n", padx = 5, pady = 3)
     j = j + 1
@@ -288,10 +288,10 @@ xcor = 0
 ycor = 0
 subFrameCounter = -1
 
-weaponLabel = tk.Label(weaponFrame, text = "Weapon List", font=("arial", 35), bg = weaponColor)
+weaponLabel = tk.Label(weaponFrame, text = "Weapon List", font=("arial", 20), bg = weaponColor, fg = "#FFFFFF")
 for i in weaponList:
     #Max 11 weapons per column, so the gunner ones have their own column, this just looks neat that way
-    if(j % 11 == 0):
+    if(j % 4 == 0):
         subFrameCounter = subFrameCounter + 1
         weaponSubFrames.append(tk.Frame(weaponSubFramesContainer, bg = weaponColor))
         xcor = xcor + 1
@@ -386,7 +386,7 @@ xcor = 0
 ycor = 0
 subFrameCounter = -1
 
-challengeLabel = tk.Label(challengeFrame, text = "Challenge List", font=("arial", 35), bg = challengeColor)
+challengeLabel = tk.Label(challengeFrame, text = "Challenge List", font=("arial", 20), bg = challengeColor, fg = "#FFFFFF")
 for i in challengeList:
     #print(i)
     #print(numPlacedChallenges)
@@ -400,11 +400,11 @@ for i in challengeList:
 
     var = tk.IntVar()
     #print(i[3] - 1, math.floor(len(tierSubFrames[i[3] - 1]) / 5))
-    challengeCheckboxes.append([tk.Checkbutton(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var, wraplength = 70), var, numPlacedChallenges[i[3] - 1][0], numPlacedChallenges[i[3] - 1][1]])
+    challengeCheckboxes.append([tk.Checkbutton(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var, wraplength = 90), var, numPlacedChallenges[i[3] - 1][0], numPlacedChallenges[i[3] - 1][1]])
     numPlacedChallenges[i[3] - 1][0] = numPlacedChallenges[i[3] - 1][0] + 1
 
     #Max challenges per row = 5
-    if(numPlacedChallenges[i[3] - 1][0] == 5):
+    if(numPlacedChallenges[i[3] - 1][0] == 7):
         numPlacedChallenges[i[3] - 1][0] = 0
 
     #print(numPlacedChallenges)
@@ -455,7 +455,7 @@ challengeButtonsFrame.grid(row = 2, column = 0)
 #Setup settings selection frame
 settingsColor = "#4D62C1"
 settingsFrame = tk.Frame(mainFrame, borderwidth = 5, relief = tk.GROOVE, bg = settingsColor)
-challengeNumberSlider = tk.Scale(settingsFrame, from_ = 1, to = 15, orient = tk.HORIZONTAL, label = "Number of restrictions", length = 300)
+challengeNumberSlider = tk.Scale(settingsFrame, from_ = 1, to = 15, orient = tk.HORIZONTAL, label = "Number of restrictions (We recommend no more than 3)", length = 320)
 challengeNumberSlider.grid(row = 0, column = 0, padx = 5)
 challengeButton = tk.Button(settingsFrame, text = "Challenge!", command = generateChallenge)
 challengeButton.grid(row = 0, column = 1, padx = 5)
@@ -463,8 +463,10 @@ challengeButton.grid(row = 0, column = 1, padx = 5)
 mainCanvas.create_window((0, 0), window = mainFrame, anchor = "nw")
 #mainFrame.pack(fill = tk.BOTH)
 monsterFrame.grid(row = 0, column = 0, sticky = "ns")
-weaponFrame.grid(row = 0, column = 1, sticky = "ns")
-challengeFrame.grid(row = 0, column = 2, sticky = "ns")
-settingsFrame.grid(row = 1, column = 0, columnspan = 3, sticky = "ew")
+weaponFrame.grid(row = 1, column = 0, sticky = "news")
+challengeFrame.grid(row = 0, column = 1, rowspan = 2, sticky = "news")
+settingsFrame.grid(row = 2, column = 0, columnspan = 2, sticky = "ew")
+#challengeFrame.grid(row = 0, column = 1, sticky = "news")
+#settingsFrame.grid(row = 1, column = 1, sticky = "ew")
 
 root.mainloop()
