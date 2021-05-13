@@ -195,7 +195,7 @@ challengeList = [
     ["No wirebug (Play like it's MH1)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [0, 12, 13], 2],
     #15
     ["No moving while using items (Old school flex)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [4, 10], 3],
-    ["Gyroscope camera", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
+    ["Gyroscope camera", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 1],
     ["No charging", [0, 4, 13], [10, 18, 34], 4],
     ["Lv 3 charge only", [0, 4, 13], [10, 17, 33, 34], 2],
     ["No counters", [1, 6], [10, 34], 3],
@@ -390,7 +390,7 @@ challengeLabel = tk.Label(challengeFrame, text = "Challenge List", font=("arial"
 for i in challengeList:
     #print(i)
     #print(numPlacedChallenges)
-    #Max 20 challenges per column
+    #Make new row
     if(numPlacedChallenges[i[3] - 1][0] == 0):
         numPlacedChallenges[i[3] - 1][1] = numPlacedChallenges[i[3] - 1][1] + 1
         tierSubFrames[i[3] - 1].append(tk.Frame(tierSubFramesContainer[i[3] - 1], bg = challengeColor))
@@ -400,9 +400,10 @@ for i in challengeList:
 
     var = tk.IntVar()
     #print(i[3] - 1, math.floor(len(tierSubFrames[i[3] - 1]) / 5))
-    challengeCheckboxes.append([tk.Checkbutton(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var), var, numPlacedChallenges[i[3] - 1][0], numPlacedChallenges[i[3] - 1][1]])
-    #challengeCheckboxes[j][0].grid(row = numPlacedChallenges[i[3] - 1][0], column = numPlacedChallenges[i[3] - 1][1], sticky = "new", padx = 5, pady = 3)
+    challengeCheckboxes.append([tk.Checkbutton(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var, wraplength = 70), var, numPlacedChallenges[i[3] - 1][0], numPlacedChallenges[i[3] - 1][1]])
     numPlacedChallenges[i[3] - 1][0] = numPlacedChallenges[i[3] - 1][0] + 1
+
+    #Max challenges per row = 5
     if(numPlacedChallenges[i[3] - 1][0] == 5):
         numPlacedChallenges[i[3] - 1][0] = 0
 
@@ -438,7 +439,7 @@ for i in tierSubFrames:
         k = k + 1
 
 for i in challengeCheckboxes:
-    i[0].grid(row = i[2], column = i[3], sticky = "new", padx = 5, pady = 3)
+    i[0].grid(row = i[3], column = i[2], sticky = "news", padx = 5, pady = 3)
     i[0].select()
     #challengeCheckboxes[j][0].grid(row = numPlacedChallenges[i[3] - 1][0], column = numPlacedChallenges[i[3] - 1][1], sticky = "new", padx = 5, pady = 3)
 
