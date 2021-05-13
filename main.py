@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import math
 import random
 import PIL.Image
@@ -104,6 +105,8 @@ def changeAll(list, state):
 root = tk.Tk()
 root.geometry("+50+50")
 root.title("Rise to the Challenge")
+root.minsize(1600, 900)
+#root.state("zoomed")
 
 #[Monster name, image icon]
 monsterList = [
@@ -170,55 +173,67 @@ weaponList = [
     ["Bow", PIL.ImageTk.PhotoImage(PIL.Image.open("images/Bow.png"))]
 ]
 
-#[Challenge name, challenge ID N°, ID's to filter compatible weapons, non-compatible challenges by ID]
+#[Challenge name, ID's to filter compatible weapons, non-compatible challenges by ID, challenge tier 1-5]
 challengeList = [
     #0
-    ["No wirefall", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [14]],
-    ["Switch skills randomizer", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["No healing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["Start with no items (Live off the land)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [4, 34]],
-    ["No items", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 15, 34]],
+    ["No wirefall", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [14], 1],
+    ["Switch skills randomizer", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 1],
+    ["No healing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 3],
+    ["Start with no items (Live off the land)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [4, 34], 2],
+    ["No items", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 15, 34], 4],
     #5
-    ["Hardcore (No carting)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["Low rank gear", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["No dodging", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["No sharpening", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [10, 34]],
-    ["Only Normal 1/No Coating", [11, 12, 13], [10, 33, 34]],
+    ["Hardcore (No carting)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 3],
+    ["Low rank gear", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 3],
+    ["No dodging", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
+    ["No sharpening", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [10, 34], 4],
+    ["Only Normal 1/No Coating", [11, 12, 13], [10, 33, 34], 4],
     #10
-    ["Only attack from palamute", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [12, 18, 22, 24, 25, 26, 27, 29, 32, 33]],
-    ["Inverted controls (or normal, the ones you don't use)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["Silkbind attacks only", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 13, 14]],
-    ["No silkbind attacks", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 12, 14, 34]],
-    ["No wirebug (Play like it's MH1)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [0, 12, 13]],
+    ["Only attack from palamute", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [12, 18, 22, 24, 25, 26, 27, 29, 32, 33], 5],
+    ["Inverted controls (or normal, the ones you don't use)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
+    ["Silkbind attacks only", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 13, 14], 5],
+    ["No silkbind attacks", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [10, 12, 14, 34], 1],
+    ["No wirebug (Play like it's MH1)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [0, 12, 13], 2],
     #15
-    ["No moving while using items (Old school flex)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [4, 10]],
-    ["Gyroscope camera", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []],
-    ["No charging", [0, 4, 13], [10, 18, 34]],
-    ["Lv 3 charge only", [0], [10, 17, 34]],
-    ["No counters", [1, 6], [10, 34]],
+    ["No moving while using items (Old school flex)", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [4, 10], 3],
+    ["Gyroscope camera", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 2],
+    ["No charging", [0, 4, 13], [10, 18, 34], 4],
+    ["Lv 3 charge only", [0, 4, 13], [10, 17, 33, 34], 2],
+    ["No counters", [1, 6], [10, 34], 3],
     #20
-    ["No spirit charges", [1], [10, 34]],
-    ["No blocking", [0, 2, 6, 7, 9], [10]],
-    ["Demon flurry only", [3], [10, 34]],
-    ["No self improvement song", [5], [10, 34]],
-    ["Shelling and Wyvernfire only (Lance-less Gunlance)", [7], [10, 25, 34]],
+    ["No spirit charges", [1], [10, 34], 3],
+    ["No blocking", [0, 2, 6, 7, 9], [10], 4],
+    ["Blade dance only", [3], [10, 34], 3],
+    ["No self improvement song", [5], [10, 34], 4],
+    ["Shelling, Wyrmstake and Wyvernfire only (Lance-less Gunlance)", [7], [10, 25, 34], 2],
     #25
-    ["Poking only (Gun-less Gunlance)", [7], [10, 24, 34]],
-    ["Axe mode only", [8, 9], [10, 27, 34]],
-    ["Sword mode only", [8, 9], [10, 26, 34]],
-    ["No shield charging", [9], [10, 34]],
-    ["Kinsect only", [10], [10, 30, 32, 34]],
+    ["Poking only (Gun-less Gunlance)", [7], [10, 24, 34], 2],
+    ["Axe mode only", [8, 9], [10, 27, 34], 4],
+    ["Sword mode only", [8, 9], [10, 26, 34], 3],
+    ["No shield charging", [9], [10, 34], 2],
+    ["Kinsect only", [10], [10, 30, 32, 34], 4],
     #30
-    ["No kinsect", [10], [10, 29, 34]],
-    ["No aerial attacks", [10], [10, 32, 34]],
-    ["Aerial attacks only", [10], [10, 29, 31, 34]],
-    ["Melee only", [11, 12, 13], [9, 10, 34]],
-    ["Items Only", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 4, 8, 9, 10, 12, 13, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]],
+    ["No kinsect", [10], [10, 29, 34], 3],
+    ["No aerial attacks", [10], [10, 32, 34], 2],
+    ["Aerial attacks only", [10], [10, 29, 31, 34], 2],
+    ["Melee only", [11, 12, 13], [9, 10, 18, 34], 5],
+    ["Items Only", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [3, 4, 8, 9, 10, 12, 13, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33], 5],
     #35
-    ["No dango", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], []]
+    ["No dango", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [], 1]
 ]
 
-mainFrame = tk.Frame(root, borderwidth = 5, relief = tk.GROOVE)
+
+frameForCanvas = tk.LabelFrame(root)
+frameForCanvas.pack(fill = tk.BOTH, expand = "yes")
+mainCanvas = tk.Canvas(frameForCanvas)
+mainCanvas.pack(side = tk.LEFT, fill = tk.BOTH, expand = "yes")
+scrollbar = ttk.Scrollbar(frameForCanvas, orient = "vertical", command = mainCanvas.yview)
+scrollbar.pack(side = tk.RIGHT, fill = tk.Y)
+
+mainCanvas.configure(yscrollcommand = scrollbar.set)
+
+mainCanvas.bind("<Configure>", lambda e: mainCanvas.configure(scrollregion = mainCanvas.bbox("all")))
+
+mainFrame = tk.Frame(mainCanvas, borderwidth = 5, relief = tk.GROOVE)
 
 #Setup monster selection checkboxes
 monsterColor = "#3B446B"
@@ -292,7 +307,8 @@ for i in weaponList:
                 variable = var, 
                 image =  i[1], 
                 compound = "left"), 
-            var])
+            var
+        ])
     weaponCheckboxes[j][0].select()
     weaponCheckboxes[j][0].grid(row = ycor, column = xcor, sticky = "ew", padx = 5, pady = 3)
     j = j + 1
@@ -317,8 +333,54 @@ weaponButtonsFrame.grid(row = 2, column = 0)
 challengeColor = "#475699"
 challengeFrame = tk.Frame(mainFrame, borderwidth = 5, relief = tk.GROOVE, bg = challengeColor)
 challengeCheckboxes = []
-challengeSubFramesContainer = tk.Frame(challengeFrame, bg = challengeColor)
-challengeSubFrames = [tk.Frame(challengeSubFramesContainer, bg = challengeColor)]
+challengeTierFramesContainer = tk.Frame(challengeFrame, bg = challengeColor)
+challengeTierFrames = [
+    tk.Frame(challengeTierFramesContainer, bg = challengeColor, borderwidth = 5, relief = tk.GROOVE), 
+    tk.Frame(challengeTierFramesContainer, bg = challengeColor, borderwidth = 5, relief = tk.GROOVE), 
+    tk.Frame(challengeTierFramesContainer, bg = challengeColor, borderwidth = 5, relief = tk.GROOVE), 
+    tk.Frame(challengeTierFramesContainer, bg = challengeColor, borderwidth = 5, relief = tk.GROOVE), 
+    tk.Frame(challengeTierFramesContainer, bg = challengeColor, borderwidth = 5, relief = tk.GROOVE)
+]
+
+tier1png = PIL.ImageTk.PhotoImage(PIL.Image.open("images/tier1.png"))
+tier2png = PIL.ImageTk.PhotoImage(PIL.Image.open("images/tier2.png"))
+tier3png = PIL.ImageTk.PhotoImage(PIL.Image.open("images/tier3.png"))
+tier4png = PIL.ImageTk.PhotoImage(PIL.Image.open("images/tier4.png"))
+tier5png = PIL.ImageTk.PhotoImage(PIL.Image.open("images/tier5.png"))
+
+tierLabels = [
+    #tk.Label(challengeTierFrames[0], text = "Tier 1", font=("arial", 20), bg = challengeColor),
+    #tk.Label(challengeTierFrames[1], text = "Tier 2", font=("arial", 20), bg = challengeColor),
+    #tk.Label(challengeTierFrames[2], text = "Tier 3", font=("arial", 20), bg = challengeColor),
+    #tk.Label(challengeTierFrames[3], text = "Tier 4", font=("arial", 20), bg = challengeColor),
+    #tk.Label(challengeTierFrames[4], text = "Tier 5", font=("arial", 20), bg = challengeColor)
+                                             
+    tk.Label(challengeTierFrames[0], image = tier1png, bg = challengeColor), 
+    tk.Label(challengeTierFrames[1], image = tier2png, bg = challengeColor), 
+    tk.Label(challengeTierFrames[2], image = tier3png, bg = challengeColor), 
+    tk.Label(challengeTierFrames[3], image = tier4png, bg = challengeColor), 
+    tk.Label(challengeTierFrames[4], image = tier5png, bg = challengeColor)
+]
+
+tierSubFramesContainer = [
+    tk.Frame(challengeTierFrames[0], bg = challengeColor),
+    tk.Frame(challengeTierFrames[1], bg = challengeColor),
+    tk.Frame(challengeTierFrames[2], bg = challengeColor),
+    tk.Frame(challengeTierFrames[3], bg = challengeColor),
+    tk.Frame(challengeTierFrames[4], bg = challengeColor)
+]
+
+tierSubFrames = [
+    [], 
+    [], 
+    [], 
+    [], 
+    []
+]
+
+numPlacedChallenges = [[0, -1], [0, -1], [0, -1], [0, -1], [0, -1]]
+
+#challengeSubFrames = [tk.Frame(challengeTierFramesContainer, bg = challengeColor)]
 j = 0
 xcor = 0
 ycor = 0
@@ -326,25 +388,59 @@ subFrameCounter = -1
 
 challengeLabel = tk.Label(challengeFrame, text = "Challenge List", font=("arial", 35), bg = challengeColor)
 for i in challengeList:
+    #print(i)
+    #print(numPlacedChallenges)
     #Max 20 challenges per column
-    if(j % 20 == 0):
-        subFrameCounter = subFrameCounter + 1
-        challengeSubFrames.append(tk.Frame(challengeSubFramesContainer, bg = challengeColor))
-        xcor = xcor + 1
+    if(numPlacedChallenges[i[3] - 1][0] == 0):
+        numPlacedChallenges[i[3] - 1][1] = numPlacedChallenges[i[3] - 1][1] + 1
+        tierSubFrames[i[3] - 1].append(tk.Frame(tierSubFramesContainer[i[3] - 1], bg = challengeColor))
+        #print(tierSubFrames)
+        #challengeSubFrames.append(tk.Frame(challengeTierFramesContainer, bg = challengeColor))
+        #xcor = xcor + 1
 
     var = tk.IntVar()
-    challengeCheckboxes.append([tk.Checkbutton(challengeSubFrames[subFrameCounter], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var), var])
-    challengeCheckboxes[j][0].select()
-    challengeCheckboxes[j][0].grid(row = ycor, column = xcor, sticky = "new", padx = 5, pady = 3)
-    j = j + 1
-    ycor = ycor + 1
+    #print(i[3] - 1, math.floor(len(tierSubFrames[i[3] - 1]) / 5))
+    challengeCheckboxes.append([tk.Checkbutton(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)], text = i[0], borderwidth = 5, relief = tk.RAISED, variable = var), var, numPlacedChallenges[i[3] - 1][0], numPlacedChallenges[i[3] - 1][1]])
+    #challengeCheckboxes[j][0].grid(row = numPlacedChallenges[i[3] - 1][0], column = numPlacedChallenges[i[3] - 1][1], sticky = "new", padx = 5, pady = 3)
+    numPlacedChallenges[i[3] - 1][0] = numPlacedChallenges[i[3] - 1][0] + 1
+    if(numPlacedChallenges[i[3] - 1][0] == 5):
+        numPlacedChallenges[i[3] - 1][0] = 0
 
-j = 0
+    #print(numPlacedChallenges)
+    #print(tierSubFrames[i[3] - 1][math.floor(len(tierSubFrames[i[3] - 1]) / 5)].winfo_children())
+    #a = input()
+
+
 challengeLabel.grid(row = 0, column = 0)
-challengeSubFramesContainer.grid(row = 1, column = 0)
-for i in challengeSubFrames:
-    i.grid(row = 0, column = j, sticky = "n")
-    j = j + 1
+challengeTierFramesContainer.grid(row = 1, column = 0)
+
+#print(challengeFrame.winfo_children())
+
+k = 0
+for i in challengeTierFrames:
+    i.grid(row = k, column = 0, sticky = "we")
+    k = k + 1
+
+for i in tierLabels:
+    #i.grid(row = 0, column = 0)
+    i.pack()
+
+for i in tierSubFramesContainer:
+    #i.grid(row = 1, column = 0)
+    i.pack()
+
+#print(tierSubFrames)
+for i in tierSubFrames:
+    k = 0
+    for j in i:
+        #print(k)
+        j.grid(row = 0, column = k)
+        k = k + 1
+
+for i in challengeCheckboxes:
+    i[0].grid(row = i[2], column = i[3], sticky = "new", padx = 5, pady = 3)
+    i[0].select()
+    #challengeCheckboxes[j][0].grid(row = numPlacedChallenges[i[3] - 1][0], column = numPlacedChallenges[i[3] - 1][1], sticky = "new", padx = 5, pady = 3)
 
 #Setup enable all/disable all buttons
 challengeButtonsFrame = tk.Frame(challengeFrame, bg = challengeColor)
@@ -363,7 +459,8 @@ challengeNumberSlider.grid(row = 0, column = 0, padx = 5)
 challengeButton = tk.Button(settingsFrame, text = "Challenge!", command = generateChallenge)
 challengeButton.grid(row = 0, column = 1, padx = 5)
 
-mainFrame.pack(fill = tk.BOTH)
+mainCanvas.create_window((0, 0), window = mainFrame, anchor = "nw")
+#mainFrame.pack(fill = tk.BOTH)
 monsterFrame.grid(row = 0, column = 0, sticky = "ns")
 weaponFrame.grid(row = 0, column = 1, sticky = "ns")
 challengeFrame.grid(row = 0, column = 2, sticky = "ns")
