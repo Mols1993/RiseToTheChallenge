@@ -105,7 +105,7 @@ def changeAll(list, state):
 root = tk.Tk()
 root.geometry("+50+50")
 root.title("Rise to the Challenge")
-root.minsize(1600, 870)
+root.minsize(1600, 910)
 #root.state("zoomed")
 
 #[Monster name, image icon]
@@ -152,7 +152,10 @@ monsterList = [
 	["Tobi-Kadachi", PIL.ImageTk.PhotoImage(PIL.Image.open("images/tobiKadachi.png"))], 
 	["Wind Serpent Ibushi", PIL.ImageTk.PhotoImage(PIL.Image.open("images/ibushi.png"))], 
 	["Volvidon", PIL.ImageTk.PhotoImage(PIL.Image.open("images/volvidon.png"))], 
-	["Zinogre", PIL.ImageTk.PhotoImage(PIL.Image.open("images/zinogre.png"))]
+	["Zinogre", PIL.ImageTk.PhotoImage(PIL.Image.open("images/zinogre.png"))],
+    ["Crimson Glow Valstrax", PIL.ImageTk.PhotoImage(PIL.Image.open("images/crimsonGlowValstrax.png"))],
+    ["Narwa the Allmother", PIL.ImageTk.PhotoImage(PIL.Image.open("images/allmother.png"))],
+    ["Apex Zinogre", PIL.ImageTk.PhotoImage(PIL.Image.open("images/apexZinogre.png"))]
 ]
 
 #[Weapon name, ID to filter compatible challenges, image icon]
@@ -224,12 +227,21 @@ challengeList = [
 
 frameForCanvas = tk.LabelFrame(root)
 frameForCanvas.pack(fill = tk.BOTH, expand = "yes")
+#frameForCanvas.grid(row = 0, column = 0, sticky = "nsew")
+
 mainCanvas = tk.Canvas(frameForCanvas)
 mainCanvas.pack(side = tk.LEFT, fill = tk.BOTH, expand = "yes")
-scrollbar = ttk.Scrollbar(frameForCanvas, orient = "vertical", command = mainCanvas.yview)
-scrollbar.pack(side = tk.RIGHT, fill = tk.Y)
+#mainCanvas.grid(row = 0, column = 0, sticky = "nsew")
 
-mainCanvas.configure(yscrollcommand = scrollbar.set)
+#scrollbarX = ttk.Scrollbar(frameForCanvas, orient = "horizontal", command = mainCanvas.xview)
+#scrollbarX.pack(side = tk.BOTTOM, fill = tk.X)
+#scrollbarX.grid(row = 1, column = 0, sticky = "ew")
+
+scrollbarY = ttk.Scrollbar(frameForCanvas, orient = "vertical", command = mainCanvas.yview)
+scrollbarY.pack(side = tk.RIGHT, fill = tk.Y)
+#scrollbarY.grid(row = 0, column = 1, sticky = "ns")
+
+mainCanvas.configure(yscrollcommand = scrollbarY.set)
 
 mainCanvas.bind("<Configure>", lambda e: mainCanvas.configure(scrollregion = mainCanvas.bbox("all")))
 
@@ -248,8 +260,8 @@ subFrameCounter = -1
 
 monsterLabel = tk.Label(monsterFrame, text = "Monster List", font=("arial", 20), bg = monsterColor, fg = "#FFFFFF")
 for i in monsterList:
-    #Max 20 monsters per column
-    if(j % 11 == 0):
+    #Max 12 monsters per column
+    if(j % 12 == 0):
         subFrameCounter = subFrameCounter + 1
         monsterSubFrames.append(tk.Frame(monsterSubFramesContainer, bg = monsterColor))
         xcor = xcor + 1
